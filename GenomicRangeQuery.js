@@ -1,4 +1,6 @@
 // O(N + M) 
+// the idea is to use prefixSum of occurrencies to detect if a nucleotide appears in a slice at all. 
+// Then choose the smallest one
 function solution(S, P, Q) {
     // write your code in JavaScript (Node.js 8.9.4)
     let sol = [];
@@ -13,6 +15,7 @@ function solution(S, P, Q) {
         }
     });
 
+    // calculate the sum of occurrencies
     let occurences = [0, 0, 0, 0];
     occurencesList.push([...occurences]);
     for(let i = 0; i < impactFactors.length; i++) {
@@ -24,6 +27,8 @@ function solution(S, P, Q) {
         }
     }
 
+    // use sum of occurences to determine if a nucleotide appear in a slice at all
+    // if it does, pick the smallest one
     for (let i = 0; i < P.length; i++) {
         let p = P[i];
         let q = Q[i];
