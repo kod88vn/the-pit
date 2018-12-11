@@ -1,45 +1,31 @@
-// O(N + M) 
-function solution(S, P, Q) {
-    // write your code in JavaScript (Node.js 8.9.4)
-    let sol = [];
-    let occurencesList = [];
-    let nucleotides = S.split('');
-    let impactFactors = nucleotides.map(n => {
-        switch(n) {
-            case 'A': return 1;
-            case 'C': return 2;
-            case 'G': return 3;
-            case 'T': return 4;
-        }
-    });
+function solution(A) {
+    let min = [999999, 0];
+    let avg;
 
-    let occurences = [0, 0, 0, 0];
-    occurencesList.push([...occurences]);
-    for(let i = 0; i < impactFactors.length; i++) {
-        for(let j = 0; j < 4; j++) {
-            if(impactFactors[i] - 1 === j) {
-                occurences[j]++;
-                occurencesList.push([...occurences]);
-            }
+    for(let i = 0; i < A.length - 2; i++) {
+        // slice of 2
+        avg = (A[i+1] + A[i])/2;
+        if(min[0] > avg) {
+            min[0] = avg;
+            min[1] = i;
+        }
+
+        // slice of 3
+        avg = (A[i+2] + A[i+1] + A[i])/3;
+        if(min[0] > avg) {
+            min[0] = avg;
+            min[1] = i;
         }
     }
 
-    for (let i = 0; i < P.length; i++) {
-        let p = P[i];
-        let q = Q[i];
-
-        for(let j = 0; j < 4; j++) {
-            if(occurencesList[q + 1][j] - occurencesList[p][j] > 0) {
-                sol.push(j + 1);
-                break;
-            }
-        }
+    // Last 2
+    avg = (A[A.length - 2] + (A[A.length - 1]))/2;
+    if(min[0] > avg) {
+        min[0] = avg;
+        min[1] = A.length - 2;
     }
-    return sol;
+    return min[1];
 }
 
-let P = [2, 5, 0];
-let Q = [4, 5, 6];
-sol = solution('CAGCCTA', P, Q);
-
+let sol = solution([4, 2, 2, 5, 1, 5, 8]);
 console.log(JSON.stringify(sol));
