@@ -1,45 +1,33 @@
-// O(N + M) 
-function solution(S, P, Q) {
+function solution(A) {
     // write your code in JavaScript (Node.js 8.9.4)
-    let sol = [];
-    let occurencesList = [];
-    let nucleotides = S.split('');
-    let impactFactors = nucleotides.map(n => {
-        switch(n) {
-            case 'A': return 1;
-            case 'C': return 2;
-            case 'G': return 3;
-            case 'T': return 4;
-        }
-    });
+    let counter = 0;
+    let segments = A.map((r, i) => [i - r, i + r]).sort((a, b) => a[0] > b[0]);
+    console.log(JSON.stringify(segments));
 
-    let occurences = [0, 0, 0, 0];
-    occurencesList.push([...occurences]);
-    for(let i = 0; i < impactFactors.length; i++) {
-        for(let j = 0; j < 4; j++) {
-            if(impactFactors[i] - 1 === j) {
-                occurences[j]++;
-                occurencesList.push([...occurences]);
+    for(let i = 0; i < segments.length; i++) {
+        for(let j = i + 1; j < segments.length; j++) {
+            if (segments[j][0] <= segments[i][1]) {
+                counter++;
             }
         }
     }
-
-    for (let i = 0; i < P.length; i++) {
-        let p = P[i];
-        let q = Q[i];
-
-        for(let j = 0; j < 4; j++) {
-            if(occurencesList[q + 1][j] - occurencesList[p][j] > 0) {
-                sol.push(j + 1);
-                break;
-            }
-        }
-    }
-    return sol;
+    return counter;
 }
 
-let P = [2, 5, 0];
-let Q = [4, 5, 6];
-sol = solution('CAGCCTA', P, Q);
+let sol = solution([1, 5, 2, 1, 4, 0] );
+// let sol = solution([1, 1, 1] );
 
 console.log(JSON.stringify(sol));
+
+// function solution(A) {
+//     // write your code in JavaScript (Node.js 8.9.4)
+//     let counter = 0;
+//     for(let i = 0; i < A.length - 1; i++) {
+//         for(let j = i + 1; j < A.length; j ++) {
+//             if(A[i] + A[j] >= j - i) {
+//                 counter += 1;
+//             }
+//         }
+//     }
+//     return counter;
+// }
