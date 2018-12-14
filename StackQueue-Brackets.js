@@ -16,8 +16,6 @@ function solution(S) {
         }
     }
     
-    console.log(queue);
-    
     if (queue.length === 0) {
         return 1;
     } else {
